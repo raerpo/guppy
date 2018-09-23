@@ -3,6 +3,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Motion, spring } from 'react-motion';
 import styled from 'styled-components';
+import { Scrollbars } from 'react-custom-scrollbars';
 import { Tooltip } from 'react-tippy';
 
 import { COLORS, Z_INDICES } from '../../constants';
@@ -127,32 +128,36 @@ class Sidebar extends PureComponent<Props, State> {
               <IntroductionBlurb
                 isVisible={!finishedOnboarding && introSequenceStepIndex >= 1}
               />
-
-              <Projects offset={`${firstProjectPosition}px`}>
-                {projects.map(project => (
-                  <Fragment key={project.id}>
-                    <Tooltip title={project.name} position="right">
-                      <SidebarProjectIcon
-                        size={SIDEBAR_ICON_SIZE}
-                        id={project.id}
-                        name={project.name}
-                        color={project.color}
-                        iconSrc={project.icon}
-                        isSelected={
-                          finishedOnboarding && project.id === selectedProjectId
-                        }
-                        handleSelect={() => selectProject(project.id)}
-                      />
-                    </Tooltip>
-                    <Spacer size={18} />
-                  </Fragment>
-                ))}
-                <AddProjectButton
-                  size={SIDEBAR_ICON_SIZE}
-                  onClick={createNewProjectStart}
-                  isVisible={finishedOnboarding || introSequenceStepIndex >= 2}
-                />
-              </Projects>
+              <Scrollbars>
+                <Projects offset={`${firstProjectPosition}px`}>
+                  {projects.map(project => (
+                    <Fragment key={project.id}>
+                      <Tooltip title={project.name} position="right">
+                        <SidebarProjectIcon
+                          size={SIDEBAR_ICON_SIZE}
+                          id={project.id}
+                          name={project.name}
+                          color={project.color}
+                          iconSrc={project.icon}
+                          isSelected={
+                            finishedOnboarding &&
+                            project.id === selectedProjectId
+                          }
+                          handleSelect={() => selectProject(project.id)}
+                        />
+                      </Tooltip>
+                      <Spacer size={18} />
+                    </Fragment>
+                  ))}
+                  <AddProjectButton
+                    size={SIDEBAR_ICON_SIZE}
+                    onClick={createNewProjectStart}
+                    isVisible={
+                      finishedOnboarding || introSequenceStepIndex >= 2
+                    }
+                  />
+                </Projects>
+              </Scrollbars>
             </Wrapper>
             {isVisible && <SidebarSpacer />}
           </Fragment>
